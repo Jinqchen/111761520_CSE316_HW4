@@ -23,24 +23,7 @@
 
 <body>
     <p>Stony Brook <span id="color">University </span><span id="small"> CSE Class Find</span></p>
-    <script>
-        var mysql = require('mysql');
 
-        var con = mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: "FYPEX123456"
-        });
-
-        con.connect(function (err) {
-            if (err) throw err;
-            console.log("Connected!");
-            con.query("CREATE DATABASE newdb", function (err, result) {
-                if (err) throw err;
-                console.log("Database created");
-            });
-        }) 
-    </script>
     <form>
         <input name="class"></input>
         <select name="type">
@@ -50,10 +33,16 @@
             <option value="day">day</option>
             <option value="time">time</option>
         </select>
-        <button name="search">search</button>
+        <button id="search">search</button>
+        <botton id="view">view my schedule</botton>
 
 
     </form>
+    
+   
+
+   
+    
 
 
 </body>
