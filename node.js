@@ -174,8 +174,35 @@ function writeSearch(req,res){
 			<tr><td style='background-color: rgb(155, 207, 175);'>Meeting Information</td><td style='background-color: rgb(155, 207, 175);'></td></tr>
 
 
-			</tbody></table></div>`;
+			</tbody></table></div>
+
+
+
+			
+			
+
+
+
+
+			
+			`;
 		}
+		html+=`<script>
+        var course = document.getElementsByClassName("classlist");
+        
+
+        for (i = 0; i < course.length; i++) {
+            course[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>`
 		res.write(html+"</body></html>");
 		res.end();
 
