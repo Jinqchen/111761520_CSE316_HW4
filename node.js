@@ -55,6 +55,40 @@ function writeSearch(req,res){
 			#small {
 				font-size: 20px;
 			}
+			</style>
+			<style>
+
+			.classlist {
+				background-color: rgb(252, 189, 189);
+				color: rgb(36, 32, 32);
+				cursor: pointer;
+				padding: 8px;
+				width: 100%;
+				border: 0;
+				text-align: center;
+				outline: 0;
+				font-size: 15px;
+			}
+	
+			.active,
+			.collapsible:hover {
+				background-color: rgb(107, 105, 105);
+			}
+	
+			.content {
+				padding: 0 18px;
+				max-height: 0;
+				overflow: hidden;
+				transition: max-height 0.2s ease-out;
+				background-color: #f7e8e8;
+			}
+			</style>
+
+
+
+
+
+
 		</style>
 	
 	
@@ -127,9 +161,20 @@ function writeSearch(req,res){
 	con.query(sql,function(err,result){
 		if(err)throw err;
 		for(let item of result){
-			html+=`<button type="button class"toggle>CSE`+item.CRS+`-`+
-			item.Title+`-`+item.Cmp+`- Section `+item.Sctn+`</button>
-			`;
+			html+=`<button type 'button' class= 'classlist' >CSE`+item.CRS+`-`+
+			item.Title+`-`+item.Cmp+`- Section `+item.Sctn+`</button>`+
+			`<div class='content'> <p>Suny at Stony Brook | Spring 2021 | </p><table border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>
+			<tbody><tr><td style='background-color: rgb(155, 207, 175);'>Class Details</td><td style='background-color: rgb(155, 207, 175);'></td></tr>
+			<tr><td>Status:   Open</td><td>Course ID</td></tr>
+			<tr><td>Class Number:   </td><td>Offer Nbr:</td></tr>
+			<tr><td>Section: Full Spring Semester Session  </td><td>Career</td></tr>
+			<tr><td>Units:  </td><td>Dates:`+item.MtgStartDate+`-`+item.MtgEndDate+`</td></tr>
+			<tr><td>Class Components: `+item.Cmp+`</td><td>Granding:</td></tr>
+			<tr><td></td><td>Building: `+item.Building+` Room: `+item.Room+`</td></tr>
+			<tr><td style='background-color: rgb(155, 207, 175);'>Meeting Information</td><td style='background-color: rgb(155, 207, 175);'></td></tr>
+
+
+			</tbody></table></div>`;
 		}
 		res.write(html+"</body></html>");
 		res.end();
