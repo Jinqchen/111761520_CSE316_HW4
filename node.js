@@ -98,7 +98,8 @@ function writeSearch(req,res){
 		<p>Stony Brook <span id="color">University </span><span id="small"> CSE Class Find</span></p>
 	
 		<form method="get"action="/">
-			<input name="search" type="text" value=""></input>
+		     
+			<input name="search" type="text" value="Example:'cse','316'"></input>
 			<select name="filter">
 				<option value="allfield" selected="selected">all field</option>
 				<option value="courseName">title</option>
@@ -163,6 +164,7 @@ function writeSearch(req,res){
 		for(let item of result){
 			html+=`<button type 'button' class= 'classlist' >CSE`+item.CRS+`-`+
 			item.Title+`-`+item.Cmp+`- Section `+item.Sctn+`</button>`+
+			
 			`<div class='content'> <p>Suny at Stony Brook | Spring 2021 | </p><table border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>
 			<tbody><tr><td style='background-color: rgb(155, 207, 175);'>Class Details</td><td style='background-color: rgb(155, 207, 175);'></td></tr>
 			<tr><td>Status:   Open</td><td>Course ID</td></tr>
@@ -172,6 +174,19 @@ function writeSearch(req,res){
 			<tr><td>Class Components: `+item.Cmp+`</td><td>Granding:</td></tr>
 			<tr><td></td><td>Building: `+item.Building+` Room: `+item.Room+`</td></tr>
 			<tr><td style='background-color: rgb(155, 207, 175);'>Meeting Information</td><td style='background-color: rgb(155, 207, 175);'></td></tr>
+			</tbody></table>
+			<table border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>
+			<tbody2>
+			<tr><td style='background-color: rgb(210, 226, 216);'>Days & Times</td><td style='background-color: rgb(210, 226, 216);'>Room</td><td style='background-color: rgb(210, 226, 216);'>Instructor</td><td style='background-color: rgb(210, 226, 216);'>Meeting Dates</td></tr>
+			<tr><td>`+item.Days+`  `+item.StartTime+` - `+item.EndTime+`</td><td>`+item.Room+`</td><td>`+item.Instr+`</td><td>`+item.MtgStartDate+` - `+item.MtgEndDate+`</td></tr>
+			<tr><td>Meeting Duration: `+item.Duration+` </td></tr></tbody2><table>
+			<table border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>
+			<tr><td style='background-color: rgb(155, 207, 175);'>Class Availability</td><td style='background-color: rgb(155, 207, 175);'></td></tr>
+			<tr><td>Class Capacity:`+item.EnrlCap+`</td><td>Wait List Capacity:`+item.WaitCap+`</td></tr>
+			<tr><td>Class Mode:`+item.InstructionMode+`</td></tr>
+			<tr><td>Combined Description: `+item.CmbndDescr+`</td> <td>Combined Enrollement: `+item.CmbndEnrlCap+`</td></tr>
+			
+			
 
 
 			</tbody></table></div>
