@@ -82,6 +82,7 @@ function writeSearch(req,res){
 				transition: max-height 0.2s ease-out;
 				background-color: #f7e8e8;
 			}
+			
 			</style>
 
 
@@ -165,6 +166,7 @@ function writeSearch(req,res){
 			html+=`<button type 'button' class= 'classlist' >CSE`+item.CRS+`-`+
 			item.Title+`-`+item.Cmp+`- Section `+item.Sctn+`</button>`+
 			
+			
 			`<div class='content'> <p>Suny at Stony Brook | Spring 2021 | </p><table border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>
 			<tbody><tr><td style='background-color: rgb(155, 207, 175);'>Class Details</td><td style='background-color: rgb(155, 207, 175);'></td></tr>
 			<tr><td>Status:   Open</td><td>Course ID</td></tr>
@@ -211,9 +213,11 @@ function writeSearch(req,res){
                 this.classList.toggle("active");
                 var content = this.nextElementSibling;
                 if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
+					content.style.maxHeight = null;
+					
                 } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
+					content.style.maxHeight = content.scrollHeight + "px";
+					
                 }
             });
         }
