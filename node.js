@@ -239,7 +239,7 @@ function writeSearch(req,res){
 function writeSchedule(req,res){
 	let query=url.parse(req.url,true).query;
 	
-	let addQuery=`INSERT INTO schedule SELECT * FROM classfind WHERE classfind.id="`+query.add+`";`
+	let addQuery=`REPLACE INTO schedule SELECT * FROM classfind WHERE classfind.id="`+query.add+`";`
 	let html=`<!DOCTYPE html>
 	<html>
 	
@@ -332,7 +332,7 @@ function getDay(SQLResult,tableHeader){
         +item.Title+"</p>"+
         "<p style='text-align: center;'>"+
         item.Cmp+"</p>"+"<p style='text-align: center;'>"
-        +item.StartTime+" - "+item.EndTime+"</p>"
+        +item.StartTime+" - "+item.EndTime+"</p><br><br>"
 
     }
 	return retStr+"</td>"
