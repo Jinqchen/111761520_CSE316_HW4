@@ -109,6 +109,13 @@ function writeSearch(req,res){
 				<option value="instructor">Instructor</option>
 			</select>
 			<input type="submit" value="Submit">
+			<br>
+			Click to see course information
+			<br>
+			Click add to add course to your schedule
+			<br>
+			search example:"316" "M/ TU/ W/ TH/ F" "3:00" "fodor" ...
+
 			
 	
 	
@@ -189,7 +196,9 @@ function writeSearch(req,res){
 			
 
 
-			</tbody></table></div>
+			</tbody></table>
+			<form action ="/schedule" method="get">
+			<button name="add" value="`+item.id+`">Add</button></form></div>
 
 
 
@@ -226,6 +235,111 @@ function writeSearch(req,res){
 		
 		
 	   
+}
+function writeSchedule(req,res){
+	let query=url.parse(req.url,true).query;
+	
+	let addQuery=`INSERT INTO schedule SELECT * FROM classfind WHERE classfind.id="`+query.add+`";`
+	let html=`<!DOCTYPE html>
+	<html>
+	
+	<head>
+		<h1 style="text-align: center;">My weekly class schedule</h1>
+		<style type=text/css>
+			table,
+			tr,
+			td {
+				border: 1 px solid black;
+				border-collapse: collapse;
+				background-color: rgb(238, 240, 236);
+				margin-left: auto;
+				margin-right: auto;
+				padding: 3px 30px 3px 30px;
+			}
+		</style>
+	</head>
+	
+	<body>
+	<a href="/">Return</a>
+	<br><br>
+		<table>
+			<tr>
+				<th style="background-color: rgb(56, 54, 54); color: blanchedalmond;">Sunday</th>
+				<th style="background-color: rgb(56, 54, 54); color: blanchedalmond;">Monday</th>
+				<th style="background-color: rgb(56, 54, 54); color: blanchedalmond;">Tuesday</th>
+				<th style="background-color: rgb(56, 54, 54); color: blanchedalmond;">Wednesday</th>
+				<th style="background-color: rgb(56, 54, 54); color: blanchedalmond;">Thursday</th>
+				<th style="background-color: rgb(56, 54, 54); color: blanchedalmond;">Friday</th>
+				<th style="background-color: rgb(56, 54, 54); color: blanchedalmond;">Saturday</th>
+	
+			</tr>
+			<tr>
+				<td></td>
+				<td>MON</td>
+				<td>TUE</td>
+				<td>WED</td>
+				<td>THU</td>
+				<td>FRI</td>
+				<td></td>
+			</tr>
+		</table>
+	
+	</body>
+	
+	</html>`;
+	con.query(addQuery,function(err,result){
+		if(err) console.log(err);
+		con.query(constructSQLDayCommand("M"),function(err,result){
+			if(err) throw err;
+			html=html.replace("<td>MON</td>",getDay(result,"MON"));
+			con.query(constructSQLDayCommand("TU"),function(err,result){
+				if(err) throw err;
+				html=html.replace("<td>TUE</td>",getDay(result,"TUE"));
+				con.query(constructSQLDayCommand("W"),function(err,result){
+					if(err) throw err;
+					html=html.replace("<td>WED</td>",getDay(result,"WED"));
+					con.query(constructSQLDayCommand("TH"),function(err,result){
+						if(err) throw err;
+						html=html.replace("<td>THU</td>",getDay(result,"THU"));
+						con.query(constructSQLDayCommand("F"),function(err,result){
+							if(err) throw err;
+							html=html.replace("<td>FRI</td>",getDay(result,"FRI"));
+							res.write(html+'</body></html>');
+							res.end();
+						})
+
+					})
+
+				})
+			})
+
+			
+				
+
+				
+		})
+	})
+
+
+
+}
+function getDay(SQLResult,tableHeader){
+	let retStr="<td style='background-color: rgb(155, 207, 175);'>";
+	for(let item of SQLResult){
+        retStr+="<p style='text-align: center;'><strong>"
+        +item.Subj+item.CRS+" - "+item.Cmp+" - "+item.Sctn+"</strong></p>"+
+        "<p style='text-align: center;'>"
+        +item.Title+"</p>"+
+        "<p style='text-align: center;'>"+
+        item.Cmp+"</p>"+"<p style='text-align: center;'>"
+        +item.StartTime+" - "+item.EndTime+"</p>"
+
+    }
+	return retStr+"</td>"
+}
+function constructSQLDayCommand(search){
+	var sql=`SELECT * FROM schedule where Days LIKE '%`+search+`%' ORDER BY TimeQ;`;
+	return sql
 }
 
 
