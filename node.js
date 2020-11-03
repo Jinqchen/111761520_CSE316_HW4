@@ -15,6 +15,7 @@ var con = mysql.createConnection({
 
 
 });
+con.query("DELETE FROM SCHEDULE");
 
 app.get("/", (req, res) => {
 	writeSearch(req,res);
@@ -289,19 +290,19 @@ function writeSchedule(req,res){
 	</html>`;
 	con.query(addQuery,function(err,result){
 		if(err) console.log(err);
-		con.query(constructSQLDayCommand("M"),function(err,result){
+		con.query(`SELECT * FROM schedule where Days LIKE '%M%' ORDER BY TimeQ;`,function(err,result){
 			if(err) throw err;
 			html=html.replace("<td>MON</td>",getDay(result,"MON"));
-			con.query(constructSQLDayCommand("TU"),function(err,result){
+			con.query(`SELECT * FROM schedule where Days LIKE '%TU%' ORDER BY TimeQ;`,function(err,result){
 				if(err) throw err;
 				html=html.replace("<td>TUE</td>",getDay(result,"TUE"));
-				con.query(constructSQLDayCommand("W"),function(err,result){
+				con.query(`SELECT * FROM schedule where Days LIKE '%W%' ORDER BY TimeQ;`,function(err,result){
 					if(err) throw err;
 					html=html.replace("<td>WED</td>",getDay(result,"WED"));
-					con.query(constructSQLDayCommand("TH"),function(err,result){
+					con.query(`SELECT * FROM schedule where Days LIKE '%TH%' ORDER BY TimeQ;`,function(err,result){
 						if(err) throw err;
 						html=html.replace("<td>THU</td>",getDay(result,"THU"));
-						con.query(constructSQLDayCommand("F"),function(err,result){
+						con.query(`SELECT * FROM schedule where Days LIKE '%F%' ORDER BY TimeQ;`,function(err,result){
 							if(err) throw err;
 							html=html.replace("<td>FRI</td>",getDay(result,"FRI"));
 							res.write(html+'</body></html>');
@@ -337,10 +338,7 @@ function getDay(SQLResult,tableHeader){
     }
 	return retStr+"</td>"
 }
-function constructSQLDayCommand(search){
-	var sql=`SELECT * FROM schedule where Days LIKE '%`+search+`%' ORDER BY TimeQ;`;
-	return sql
-}
+
 
 
 
